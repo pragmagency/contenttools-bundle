@@ -1,0 +1,6 @@
+services:
+    pa_contenttools.configuration:
+        class: Pragmagency\ContentTools\Configuration\ContenttoolsConfiguration
+
+    Pragmagency\ContentTools\Configuration\ContenttoolsConfigurationInterface:
+        alias: pa_contenttools.configuration

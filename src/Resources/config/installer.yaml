@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $rootDir: '%kernel.project_dir%'
+
+    pa_contenttools.installer:
+        class: Pragmagency\ContentTools\Installer\ContenttoolsInstaller
+
+    Pragmagency\ContentTools\Installer\ContenttoolsInstallerInterface:
+        alias: pa_contenttools.installer
