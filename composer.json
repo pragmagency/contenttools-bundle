@@ -12,29 +12,18 @@
             "email": "remi@pragm.agency"
         }
     ],
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "getmeuk/contenttools",
-                "version": "1.6.10",
-                "dist": {
-                    "url": "https://github.com/GetmeUK/ContentTools/archive/1.6.10.zip",
-                    "type": "zip"
-                }
-            }
-        }
-    ],
     "require": {
         "symfony/asset": "^4.3",
         "symfony/config": "^4.3",
         "symfony/dependency-injection": "^4.3",
-        "symfony/http-kernel": "^4.3",
-        "getmeuk/contenttools": "^1.6"
+        "symfony/http-kernel": "^4.3"
     },
     "autoload": {
         "psr-4": {
             "Pragmagency\\ContentTools\\": "src"
         }
+    },
+    "extra": {
+        "contenttools_version": "1.6.10"
     }
 }

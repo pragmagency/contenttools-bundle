@@ -6,6 +6,8 @@ use Pragmagency\ContentTools\Configuration\ContenttoolsConfigurationInterface;
 
 final class ContenttoolsInstaller implements ContenttoolsInstallerInterface
 {
+    const BUILD_PATH_URL = 'https://raw.githubusercontent.com/GetmeUK/ContentTools/%s/build/%s';
+
     /** @var ContenttoolsConfigurationInterface */
     private $configuration;
     /** @var string */
@@ -25,7 +27,7 @@ final class ContenttoolsInstaller implements ContenttoolsInstallerInterface
             return false;
         }
 
-        $this->copy();
+        $this->downloadToInstallationDir($this->getVersion());
 
         return true;
     }
@@ -40,19 +42,35 @@ final class ContenttoolsInstaller implements ContenttoolsInstallerInterface
         return sprintf('%s/public/%s', $this->rootDir, $this->configuration->getConfig()['base_path']);
     }
 
-    private function getContenttoolsDistDir(): string
-    {
-        return sprintf('%s/vendor/getmeuk/contenttools', $this->rootDir);
-    }
-
-    private function copy()
+    private function downloadToInstallationDir(string $version)
     {
         $installationDir = $this->getInstallationDir();
 
-        if (!is_dir($installationDir)) {
-            mkdir($installationDir, 0777, true);
+        $this->checkInstallationDir($installationDir);
+
+        foreach (['content-tools.min.css', 'content-tools.min.js'] as $file) {
+            file_put_contents(
+                sprintf('%s/%s', $installationDir, $file),
+                file_get_contents(sprintf(self::BUILD_PATH_URL, $version, $file))
+            );
+        }
+    }
+
+    private function checkInstallationDir(string $dir)
+    {
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+    }
+
+    private function getVersion(): string
+    {
+        $composerData = json_decode(file_get_contents(sprintf('%s/../../composer.json', __DIR__)), true);
+
+        if (isset($composerData['extra']) && isset($composerData['extra']['contenttools_version'])) {
+            return $composerData['extra']['contenttools_version'];
         }
 
-        // @todo
+        throw new \InvalidArgumentException();
     }
 }
