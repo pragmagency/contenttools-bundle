@@ -1,0 +1,45 @@
+<script src="{{ asset('bundles/contenttools/lib/content-tools.min.js') }}"></script>
+<script>
+    function contenttools_addStylesheet() {
+        var link = document.createElement('link');
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+        link.href = '/bundles/contenttools/lib/content-tools.min.css';
+        document.head.appendChild(link);
+    }
+
+    window.addEventListener('load', function() {
+        contenttools_addStylesheet();
+
+        var editor;
+        editor = ContentTools.EditorApp.get();
+        editor.init('*[data-editable]', 'data-name');
+
+        editor.addEventListener('saved', function (event) {
+            var onStateChange, regions, xhr;
+
+            regions = event.detail().regions;
+            if (0 === Object.keys(regions).length) {
+                return;
+            }
+
+            this.busy(true);
+
+            onStateChange = function(event) {
+                if (4 === event.target.readyState) {
+                    editor.busy(false);
+                    if (200 === event.target.status) {
+                        new ContentTools.FlashUI('ok');
+                    } else {
+                        new ContentTools.FlashUI('no');
+                    }
+                }
+            };
+
+            xhr = new XMLHttpRequest();
+            xhr.addEventListener('readystatechange', onStateChange);
+            xhr.open('POST', '{{ path('contenttools_save') }}');
+            xhr.send(JSON.stringify(regions));
+        });
+    });
+</script>

@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    pa_contenttools.command.install:
+        class: Pragmagency\ContentTools\Command\PragmagencyContenttoolsInstallCommand

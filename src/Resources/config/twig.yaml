@@ -1,0 +1,21 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    pa_contenttools.twig.loader:
+        class: Twig\Loader\FilesystemLoader
+        arguments:
+            - '%kernel.project_dir%/vendor/pragmagency/contenttools-bundle/src/Resources/template'
+
+    pa_contenttools.twig.env:
+        class: Twig\Environment
+        arguments:
+            - '@pa_contenttools.twig.loader'
+
+    pa_contenttools.twig.extension:
+        class: Pragmagency\ContentTools\Twig\ContentToolsExtension
+        calls:
+            -   method: setRetriever
+                arguments:
+                    - "@=service('pa_contenttools.retriever_locator').get(service('pa_contenttools.configuration').get('[retriever][type]'))"

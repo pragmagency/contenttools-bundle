@@ -16,7 +16,12 @@ final class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->scalarNode('base_path')->defaultValue('bundles/contenttools/')->end()
+                ->arrayNode('retriever')
+                    ->children()
+                        ->scalarNode('type')->defaultValue('file')->end()
+                        ->scalarNode('files_path')->defaultValue('translations/contenttools')->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

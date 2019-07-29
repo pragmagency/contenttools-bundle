@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $rootDir: '%kernel.project_dir%'
+
+    pa_contenttools.retriever_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        arguments:
+            -
+                file: '@pa_contenttools.retriever.infile'
+
+    pa_contenttools.retriever.infile:
+        class: Pragmagency\ContentTools\Retriever\InFileRetriever

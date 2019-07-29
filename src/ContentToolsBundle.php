@@ -5,7 +5,7 @@ namespace Pragmagency\ContentTools;
 use Pragmagency\ContentTools\DependencyInjection\ContenttoolsExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class ContenttoolsBundle extends Bundle
+final class ContentToolsBundle extends Bundle
 {
     public function getContainerExtension(): ContenttoolsExtension
     {

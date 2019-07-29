@@ -19,7 +19,7 @@ final class ContenttoolsExtension extends ConfigurableExtension
     private function loadResources(ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $resources = ['configuration', 'installer'];
+        $resources = ['configuration', 'installer', 'command', 'retriever', 'twig', 'controller'];
 
         foreach ($resources as $resource) {
             $loader->load($resource.'.yaml');
