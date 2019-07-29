@@ -16,10 +16,18 @@ final class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('retriever')
+                ->arrayNode('persistence')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('type')->defaultValue('file')->end()
                         ->scalarNode('files_path')->defaultValue('translations/contenttools')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('security_checker')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('type')->defaultValue('role')->end()
+                        ->scalarNode('role')->defaultValue('ROLE_EDIT')->end()
                     ->end()
                 ->end()
             ->end();

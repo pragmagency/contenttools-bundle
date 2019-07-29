@@ -3,5 +3,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    pa_contenttools.controller.save:
-        class: Pragmagency\ContentTools\Controller\SaveController
+    Pragmagency\ContentTools\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']

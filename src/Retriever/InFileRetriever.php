@@ -25,15 +25,14 @@ class InFileRetriever implements RetrieverInterface
         return $domainData[$name] ?? '';
     }
 
-    private function getDomainData(string $domain): array
+    public function getDomainData(string $domain): array
     {
         if (isset($this->loadedDomains[$domain])) {
             return $this->loadedDomains[$domain];
         }
 
-        $relativeFilePath = $this->configuration->getConfig()['retriever']['files_path'];
-        $absoluteFilePath = sprintf('%s/%s', $this->rootDir, $relativeFilePath);
-        $domainPath = sprintf('%s/%s.yaml', $absoluteFilePath, $domain);
+        $absoluteFilePath = $this->getFilesPath();
+        $domainPath = $this->getDomainFilePath($domain);
 
         if (!is_dir($absoluteFilePath)) {
             mkdir($absoluteFilePath, 0777, true);
@@ -46,5 +45,16 @@ class InFileRetriever implements RetrieverInterface
         $this->loadedDomains[$domain] = Yaml::parseFile($domainPath);
 
         return $this->loadedDomains[$domain] ?? [];
+    }
+
+    public function getFilesPath(): string
+    {
+        $relativeFilePath = $this->configuration->getConfig()['persistence']['files_path'];
+        return sprintf('%s/%s', $this->rootDir, $relativeFilePath);
+    }
+
+    public function getDomainFilePath(string $domain): string
+    {
+        return sprintf('%s/%s.yaml', $this->getFilesPath(), $domain);
     }
 }

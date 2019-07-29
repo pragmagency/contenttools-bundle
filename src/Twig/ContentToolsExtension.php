@@ -2,25 +2,20 @@
 
 namespace Pragmagency\ContentTools\Twig;
 
-use Pragmagency\ContentTools\Retriever\RetrieverInterface;
+use Pragmagency\ContentTools\Configuration\ContenttoolsConfigurationInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class ContentToolsExtension extends AbstractExtension
 {
-    /** @var RetrieverInterface */
-    private $retriever;
     private $environment;
+    private $configuration;
 
-    public function __construct(Environment $environment)
+    public function __construct(Environment $environment, ContenttoolsConfigurationInterface $configuration)
     {
         $this->environment = $environment;
-    }
-
-    public function setRetriever(RetrieverInterface $retriever): void
-    {
-        $this->retriever = $retriever;
+        $this->configuration = $configuration;
     }
 
     public function getFunctions(): array
@@ -39,14 +34,14 @@ final class ContentToolsExtension extends AbstractExtension
     ) {
         if ($this->isAllowedToEdit()) {
             $parameters['data-editable'] = '';
-            $parameters['data-name'] = $name;
+            $parameters['data-name'] = sprintf('%s/%s', $domain, $name);
         }
 
         return sprintf(
             '<%s%s>%s</%s>',
             $tagName,
             $this->buildParametersString($parameters),
-            $this->retriever->retrieve($name, $domain),
+            $this->configuration->getRetriever()->retrieve($name, $domain),
             $tagName
         );
     }
@@ -75,6 +70,6 @@ final class ContentToolsExtension extends AbstractExtension
 
     private function isAllowedToEdit(): bool
     {
-        return true; // @todo
+        return $this->configuration->getSecurityChecker()->check();
     }
 }

@@ -9,7 +9,7 @@ services:
         class: Symfony\Component\DependencyInjection\ServiceLocator
         arguments:
             -
-                file: '@pa_contenttools.retriever.infile'
+                file: '@Pragmagency\ContentTools\Retriever\InFileRetriever'
 
-    pa_contenttools.retriever.infile:
-        class: Pragmagency\ContentTools\Retriever\InFileRetriever
+    Pragmagency\ContentTools\Retriever\:
+        resource: '../../Retriever'

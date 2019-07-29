@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    pa_contenttools.security_checker_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        arguments:
+            -
+                role: '@Pragmagency\ContentTools\SecurityChecker\RoleSecurityChecker'
+
+    Pragmagency\ContentTools\SecurityChecker\RoleSecurityChecker:
+        calls:
+            -   method: setContainer
+                arguments:
+                    - '@service_container'

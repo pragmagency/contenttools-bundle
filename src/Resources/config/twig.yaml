@@ -15,7 +15,3 @@ services:
 
     pa_contenttools.twig.extension:
         class: Pragmagency\ContentTools\Twig\ContentToolsExtension
-        calls:
-            -   method: setRetriever
-                arguments:
-                    - "@=service('pa_contenttools.retriever_locator').get(service('pa_contenttools.configuration').get('[retriever][type]'))"

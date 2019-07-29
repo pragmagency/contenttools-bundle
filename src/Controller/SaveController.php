@@ -2,6 +2,7 @@
 
 namespace Pragmagency\ContentTools\Controller;
 
+use Pragmagency\ContentTools\Configuration\ContenttoolsConfigurationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SaveController extends AbstractController
 {
+    private $configuration;
+
+    public function __construct(ContenttoolsConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
     /**
      * @Route("/save", name="contenttools_save", methods={"POST"})
      */
@@ -28,7 +36,7 @@ class SaveController extends AbstractController
             return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
 
-        // @todo real save
+        $this->configuration->getPersister()->persistMultiple($decodedContent);
 
         return new JsonResponse();
     }
