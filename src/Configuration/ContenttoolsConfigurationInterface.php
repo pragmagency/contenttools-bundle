@@ -2,8 +2,7 @@
 
 namespace Pragmagency\ContentTools\Configuration;
 
-use Pragmagency\ContentTools\Persister\PersisterInterface;
-use Pragmagency\ContentTools\Retriever\RetrieverInterface;
+use Pragmagency\ContentTools\Repository\RepositoryInterface;
 use Pragmagency\ContentTools\SecurityChecker\SecurityCheckerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
@@ -18,15 +17,11 @@ interface ContenttoolsConfigurationInterface
      */
     public function get(string $propertyPath);
 
-    public function setRetrieverLocator(ServiceLocator $retrieverLocator): void;
-
-    public function setPersisterLocator(ServiceLocator $persisterLocator): void;
+    public function setRepositoryLocator(ServiceLocator $repositoryLocator): void;
 
     public function setSecurityCheckerLocator(ServiceLocator $securityCheckerLocator): void;
 
-    public function getPersister(): PersisterInterface;
+    public function getRepository(string $domain = null): RepositoryInterface;
 
-    public function getRetriever(): RetrieverInterface;
-
-    public function getSecurityChecker(): SecurityCheckerInterface;
+    public function getSecurityChecker(string $domain = null): SecurityCheckerInterface;
 }

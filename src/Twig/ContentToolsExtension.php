@@ -30,18 +30,18 @@ final class ContentToolsExtension extends AbstractExtension
         string $name,
         string $domain = 'messages',
         string $tagName = 'div',
-        array $parameters = []
+        array $attributes = []
     ) {
-        if ($this->isAllowedToEdit()) {
-            $parameters['data-editable'] = '';
-            $parameters['data-name'] = sprintf('%s/%s', $domain, $name);
+        if ($this->isAllowedToEdit($domain)) {
+            $attributes['data-editable'] = '';
+            $attributes['data-name'] = sprintf('%s/%s', $domain, $name);
         }
 
         return sprintf(
             '<%s%s>%s</%s>',
             $tagName,
-            $this->buildParametersString($parameters),
-            $this->configuration->getRetriever()->retrieve($name, $domain),
+            $this->buildParametersString($attributes),
+            $this->configuration->getRepository()->retrieve($name, $domain),
             $tagName
         );
     }
@@ -68,8 +68,8 @@ final class ContentToolsExtension extends AbstractExtension
         return $scriptContent;
     }
 
-    private function isAllowedToEdit(): bool
+    private function isAllowedToEdit(string $domain = null): bool
     {
-        return $this->configuration->getSecurityChecker()->check();
+        return $this->configuration->getSecurityChecker($domain)->check();
     }
 }

@@ -23,8 +23,7 @@ final class ContenttoolsExtension extends ConfigurableExtension
             'configuration',
             'installer',
             'command',
-            'retriever',
-            'persister',
+            'repository',
             'security_checker',
             'twig',
             'controller',
@@ -34,6 +33,7 @@ final class ContenttoolsExtension extends ConfigurableExtension
             $loader->load($resource.'.yaml');
         }
     }
+
     public function getAlias(): string
     {
         return 'pa_contenttools';

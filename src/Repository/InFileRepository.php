@@ -1,11 +1,11 @@
 <?php
 
-namespace Pragmagency\ContentTools\Retriever;
+namespace Pragmagency\ContentTools\Repository;
 
 use Pragmagency\ContentTools\Configuration\ContenttoolsConfigurationInterface;
 use Symfony\Component\Yaml\Yaml;
 
-class InFileRetriever implements RetrieverInterface
+final class InFileRepository implements RepositoryInterface
 {
     private $rootDir;
     private $configuration;
@@ -16,6 +16,22 @@ class InFileRetriever implements RetrieverInterface
     {
         $this->configuration = $configuration;
         $this->rootDir = $rootDir;
+    }
+
+    public function persist(array $values, string $domain)
+    {
+        $domainData = $this->getDomainData($domain);
+
+        foreach ($values as $name => $value) {
+            $domainData[$name] = $value;
+        }
+
+        $this->saveDomain($domain, $domainData);
+    }
+
+    private function saveDomain(string $domain, array $domainData)
+    {
+        file_put_contents($this->getDomainFilePath($domain), Yaml::dump($domainData));
     }
 
     public function retrieve(string $name, string $domain): string

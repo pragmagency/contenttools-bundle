@@ -2,8 +2,7 @@
 
 namespace Pragmagency\ContentTools\Configuration;
 
-use Pragmagency\ContentTools\Persister\PersisterInterface;
-use Pragmagency\ContentTools\Retriever\RetrieverInterface;
+use Pragmagency\ContentTools\Repository\RepositoryInterface;
 use Pragmagency\ContentTools\SecurityChecker\SecurityCheckerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -13,9 +12,7 @@ final class ContenttoolsConfiguration implements ContenttoolsConfigurationInterf
     /** @var array */
     private $config;
     /** @var ServiceLocator */
-    private $retrieverLocator;
-    /** @var ServiceLocator */
-    private $persisterLocator;
+    private $repositoryLocator;
     /** @var ServiceLocator */
     private $securityCheckerLocator;
 
@@ -24,14 +21,9 @@ final class ContenttoolsConfiguration implements ContenttoolsConfigurationInterf
         $this->config = $config;
     }
 
-    public function setRetrieverLocator(ServiceLocator $retrieverLocator): void
+    public function setRepositoryLocator(ServiceLocator $repositoryLocator): void
     {
-        $this->retrieverLocator = $retrieverLocator;
-    }
-
-    public function setPersisterLocator(ServiceLocator $persisterLocator): void
-    {
-        $this->persisterLocator = $persisterLocator;
+        $this->repositoryLocator = $repositoryLocator;
     }
 
     public function setSecurityCheckerLocator(ServiceLocator $securityCheckerLocator): void
@@ -44,25 +36,30 @@ final class ContenttoolsConfiguration implements ContenttoolsConfigurationInterf
         return $this->config;
     }
 
-    public function get(string $propertyPath)
+    public function get(string $propertyPath, string $domain = null)
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $config = $this->getConfig();
 
-        return $propertyAccessor->getValue($this->getConfig(), $propertyPath);
+        if (
+            null !== $domain &&
+            $propertyAccessor->isReadable($config, $domainConfigPath = sprintf('[domains][%s]', $domain)) &&
+            $propertyAccessor->isReadable($config, $domainPropertyPath = sprintf('%s%s', $domainConfigPath, $propertyPath)) &&
+            null !== ($value = $propertyAccessor->getValue($config, $domainPropertyPath))
+        ) {
+            return $value;
+        }
+
+        return $propertyAccessor->getValue($config, $propertyPath);
     }
 
-    public function getPersister(): PersisterInterface
+    public function getRepository(string $domain = null): RepositoryInterface
     {
-        return $this->persisterLocator->get($this->get('[persistence][type]'));
+        return $this->repositoryLocator->get($this->get('[persistence][type]', $domain));
     }
 
-    public function getRetriever(): RetrieverInterface
+    public function getSecurityChecker(string $domain = null): SecurityCheckerInterface
     {
-        return $this->retrieverLocator->get($this->get('[persistence][type]'));
-    }
-
-    public function getSecurityChecker(): SecurityCheckerInterface
-    {
-        return $this->securityCheckerLocator->get($this->get('[security_checker][type]'));
+        return $this->securityCheckerLocator->get($this->get('[security][type]', $domain));
     }
 }

@@ -2,12 +2,9 @@ services:
     pa_contenttools.configuration:
         class: Pragmagency\ContentTools\Configuration\ContenttoolsConfiguration
         calls:
-            -   method: setRetrieverLocator
+            -   method: setRepositoryLocator
                 arguments:
-                    - '@pa_contenttools.retriever_locator'
-            -   method: setPersisterLocator
-                arguments:
-                    - '@pa_contenttools.persister_locator'
+                    - '@pa_contenttools.repository_locator'
             -   method: setSecurityCheckerLocator
                 arguments:
                     - '@pa_contenttools.security_checker_locator'

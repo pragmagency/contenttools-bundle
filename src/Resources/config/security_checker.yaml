@@ -8,6 +8,10 @@ services:
         arguments:
             -
                 role: '@Pragmagency\ContentTools\SecurityChecker\RoleSecurityChecker'
+                none: '@Pragmagency\ContentTools\SecurityChecker\NoSecurityChecker'
+
+    Pragmagency\ContentTools\SecurityChecker\:
+        resource: '../../SecurityChecker'
 
     Pragmagency\ContentTools\SecurityChecker\RoleSecurityChecker:
         calls:

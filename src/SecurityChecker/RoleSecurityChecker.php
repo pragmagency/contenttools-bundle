@@ -23,7 +23,7 @@ final class RoleSecurityChecker implements SecurityCheckerInterface, ContainerAw
         }
 
         return $this->container->get('security.authorization_checker')->isGranted(
-            $this->configuration->get('[security_checker][role]')
+            $this->configuration->get('[security][role]')
         );
     }
 }

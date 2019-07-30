@@ -5,11 +5,11 @@ services:
         bind:
             $rootDir: '%kernel.project_dir%'
 
-    pa_contenttools.retriever_locator:
+    pa_contenttools.repository_locator:
         class: Symfony\Component\DependencyInjection\ServiceLocator
         arguments:
             -
-                file: '@Pragmagency\ContentTools\Retriever\InFileRetriever'
+                file: '@Pragmagency\ContentTools\Repository\InFileRepository'
 
-    Pragmagency\ContentTools\Retriever\:
-        resource: '../../Retriever'
+    Pragmagency\ContentTools\Repository\:
+        resource: '../../Repository'
