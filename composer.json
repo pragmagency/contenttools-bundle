@@ -13,7 +13,6 @@
         }
     ],
     "require": {
-        "symfony/asset": "^4.3",
         "symfony/config": "^4.3",
         "symfony/console": "^4.3",
         "symfony/dependency-injection": "^4.3",
@@ -25,6 +24,9 @@
         "symfony/yaml": "^4.3",
         "ext-json": "*"
     },
+    "suggest": {
+        "symfony/security-bundle": "Allows to use RoleSecurityChecker"
+    },
     "autoload": {
         "psr-4": {
             "Pragmagency\\ContentTools\\": "src"
@@ -32,16 +34,5 @@
     },
     "extra": {
         "contenttools_version": "1.6.10"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "pragmagency:contenttools:install": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
     }
 }
