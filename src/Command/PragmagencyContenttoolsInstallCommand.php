@@ -35,5 +35,7 @@ final class PragmagencyContenttoolsInstallCommand extends Command
         $this->installer->install();
 
         $io->success('contenttools.js installed');
+
+        return 0;
     }
 }
