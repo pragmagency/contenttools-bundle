@@ -13,15 +13,15 @@
         }
     ],
     "require": {
-        "symfony/config": "^4.3",
-        "symfony/console": "^4.3",
-        "symfony/dependency-injection": "^4.3",
-        "symfony/expression-language": "^4.3",
-        "symfony/framework-bundle": "^4.3",
-        "symfony/http-kernel": "^4.3",
-        "symfony/property-access": "^4.3",
-        "symfony/twig-bundle": "^4.3",
-        "symfony/yaml": "^4.3",
+        "symfony/config": "^4.3|^5.0",
+        "symfony/console": "^4.3|^5.0",
+        "symfony/dependency-injection": "^4.3|^5.0",
+        "symfony/expression-language": "^4.3|^5.0",
+        "symfony/framework-bundle": "^4.3|^5.0",
+        "symfony/http-kernel": "^4.3|^5.0",
+        "symfony/property-access": "^4.3|^5.0",
+        "symfony/twig-bundle": "^4.3|^5.0",
+        "symfony/yaml": "^4.3|^5.0",
         "ext-json": "*"
     },
     "suggest": {
